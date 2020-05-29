@@ -18,6 +18,7 @@ var startbtn = document.getElementById('startbutton');
 var instructions = document.getElementById('begin-text');
 var timer = document.getElementById("timer");
 var timerdiv = document.getElementById("countdown-timer");
+var questiondiv = document.getElementById("question-container");
 
 
 startbtn.addEventListener('click', startGame);
@@ -29,6 +30,7 @@ function startGame() {
     timerdiv.classList.remove("hide");
     scoreTimer();
     // show first question
+    questiondiv.classList.remove("hide");
 };
 
 // Creating the timer
