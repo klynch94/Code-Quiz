@@ -2,5 +2,23 @@
     text-align: center;
     background-color: rgb(49, 96, 143);
     color: white;
+    padding: 15px;
 }
 
+.maincontainer {
+    text-align: center;
+    
+}
+
+#footerid {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(49, 96, 143);
+    color: white;
+}
+
+.footertext {
+    margin-top: 16px;
+}
