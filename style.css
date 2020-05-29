@@ -7,7 +7,16 @@
 
 .maincontainer {
     text-align: center;
-    
+    margin-top: 10%;
+}
+
+#countdown-timer {
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.hide {
+    display: none;
 }
 
 #footerid {

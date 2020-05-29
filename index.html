@@ -19,11 +19,19 @@
         </div>
     </header>
 
-    <main class="container maincontainer card-body">
-        <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your scoretime by 10 seconds! When you are ready, click the start button and begin.</p>
-        <button type="button" class="btn btn-primary">
-            Start
-        </button>
+    <main class="content-section">
+        <div class="container maincontainer card-body">
+            <div id="begin-text">
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your scoretime by 10 seconds! When you are ready, click the start button and begin.</p>
+                <button type="button" id="startbutton" class="btn btn-primary">
+                Start
+                </button> 
+            </div>
+        </div>
+
+        <aside class="hide" id="countdown-timer">
+            <p>Seconds Left: <span id="timer">120</span></p>
+        </aside>
     </main>
 
 
@@ -34,5 +42,8 @@
           <p>This code quiz was made by Kieran Lynch</p>
         </div>
     </footer>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
