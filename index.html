@@ -29,18 +29,24 @@
             </div>
         </div>
 
+        <!-- container to hold questions and answers -->
         <div class="container hide" id="question-container">
             <div id="questions">
-                Enter question here...
             </div>
-            <div>
-                <button id="first-btn" class="btn btn-primary answer-btns">Answer 1</button>
-                <button id="second-btn" class="btn btn-primary answer-btns">Answer 2</button>
-                <button id="third-btn" class="btn btn-primary answer-btns">Answer 3</button>
-                <button id="fourth-btn" class="btn btn-primary answer-btns">Answer 4</button>
+            <div id = "btnAnswers">
             </div>
         </div>
 
+        <!-- Ending message when user has answered all questions -->
+        <div id="endingMessage" class="container hide">
+            <h2>Well Done!</h2>
+            <h4>Your final score is: <span id=finalScore></span></h4>
+            <form>
+                <label for="Initials-input">Initials:</label>
+                <input type="text" id="initials-input"><button id="submit-score" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+         
         <aside class="hide" id="countdown-timer">
             <p>Seconds Left: <span id="timer">120</span></p>
         </aside>

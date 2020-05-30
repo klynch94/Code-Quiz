@@ -19,9 +19,17 @@
     text-align: center;
 }
 
+#endingMessage {
+    text-align: center;
+}
+
 .answer-btns {
     margin: 5px;
     text-align: center;
+}
+
+#submit-score {
+    margin-left: 5px;
 }
 
 .hide {

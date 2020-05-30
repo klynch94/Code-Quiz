@@ -1,34 +1,52 @@
-// time variable - timer (this will double as score variable)
-
-// When start button is clicked (add an event listener), start a timer.
-
-// When start button is clicked, present user with first question
-
-// When user selects answer to question, present user with correct or incorrect for 1 second.
-
-// When user answers question, wait 1 second before moving onto next question
-
-// If user answers question incorrectly, then subtract 10 seconds from time variable
-
-// when last question is answered, capture and grab time variable which is the final score.
-
-// Store this score in memory with ability to label it (think object with key and value)
-
-
-
 // variables for starting the game and timer
 var startbtn = document.getElementById('startbutton');
 var instructions = document.getElementById('begin-text');
 var timer = document.getElementById("timer");
 var timerdiv = document.getElementById("countdown-timer");
 var questiondiv = document.getElementById("question-container");
+var i = 0;
+var timerInterval;
+var ending = document.getElementById("endingMessage");
+var finalScore = document.getElementById("finalScore");
+var secondsLeft = 120;
 
-// Variables for questions and answers....
-var newquestion = document.getElementById("questions");
-var firstbtn = document.getElementById("first-btn");
-var secondbtn = document.getElementById("second-btn");
-var thirdbtn = document.getElementById("third-btn");
-var fourthbtn = document.getElementById("fourth-btn");
+
+// Question objects
+var questionArray = [
+    {
+        q: "Which element is a self-closing tag?",
+        answer1: "<p>",
+        answer2: "<div>",
+        answer3: "<img>",
+        answer4: "<h1>",
+        qanswer: "<img>"
+    },
+    {
+        q: "As a best practice, where should you link your JavaScript into your HTML?",
+        answer1: "At the top of the 'Head' section",
+        answer2: "At the bottom of the 'Body' section",
+        answer3: "Within a <div> at the top of the 'Body' section",
+        answer4: "At the end of the 'Head' section",
+        qanswer: "At the bottom of the 'Body' section"
+    },
+    {
+        q: "What is your favorite website?",
+        answer1: "Google",
+        answer2: "yahoo",
+        answer3: "msn.com",
+        answer4: "facebook",
+        qanswer: "Google"
+    },
+    {
+        q: "Question 4?",
+        answer1: "1",
+        answer2: "2",
+        answer3: "3",
+        answer4: "4",
+        qanswer: "1"
+    }
+];
+
 
 startbtn.addEventListener('click', startGame);
 
@@ -40,75 +58,77 @@ function startGame() {
     scoreTimer();
     // show first question
     questiondiv.classList.remove("hide");
-    firstquestion();
 };
 
 // Creating the timer
 function scoreTimer() {
-    var secondsLeft = 120;
-    var timerinterval = setInterval(function() {
+    timerInterval = setInterval(function () {
         secondsLeft--;
+        displayQuestion();
         timer.textContent = secondsLeft;
 
         if (secondsLeft === 0) {
             alert("your out of time!")
-            clearInterval(timer);
+            clearInterval(timerInterval);
         }
     }, 1000);
 }
 
-function firstquestion() {
-    var answerbuttons = document.querySelector(".answer-btns");
-    newquestion.innerText = question1.q1;
-    firstbtn.innerText = question1.answer1;
-    secondbtn.innerText = question1.answer2;
-    thirdbtn.innerText = question1.answer3;
-    fourthbtn.innerText = question1.answer4;
-    // answerbuttons.addEventListener("click", secondquestion());
+// function to display questions dynamically
+function displayQuestion() {
+
+    if (i < questionArray.length) {
+        document.getElementById("questions").textContent = "";
+        document.getElementById("btnAnswers").textContent = "";
+
+        var questionP = document.createElement("p")
+        questionP.innerText = questionArray[i].q;
+        document.getElementById("questions").appendChild(questionP)
+
+        var answer1Btn = document.createElement("button")
+        answer1Btn.innerText = questionArray[i].answer1;
+        answer1Btn.setAttribute("class", "answer-btns btn btn-primary")
+        document.getElementById("btnAnswers").appendChild(answer1Btn)
+
+        var answer2Btn = document.createElement("button")
+        answer2Btn.innerText = questionArray[i].answer2;
+        answer2Btn.setAttribute("class", "answer-btns btn btn-primary")
+        document.getElementById("btnAnswers").appendChild(answer2Btn)
+
+        var answer3Btn = document.createElement("button")
+        answer3Btn.innerText = questionArray[i].answer3;
+        answer3Btn.setAttribute("class", "answer-btns btn btn-primary")
+        document.getElementById("btnAnswers").appendChild(answer3Btn)
+
+        var answer4Btn = document.createElement("button")
+        answer4Btn.innerText = questionArray[i].answer4;
+        answer4Btn.setAttribute("class", "answer-btns btn btn-primary")
+        document.getElementById("btnAnswers").appendChild(answer4Btn)
+
+        // Taken from https://flaviocopes.com/add-click-event-to-dom-list/
+        const buttons = document.querySelectorAll(".answer-btns")
+        for (const button of buttons) {
+            button.addEventListener('click', function (event) {
+                i++
+            })
+        }
+    }
+    else {
+        clearInterval(timerInterval);
+        questiondiv.classList.add("hide");
+        timerdiv.classList.add("hide");
+        console.log(timerInterval);
+        // grab timerinterval and set that as the score
+        finalScore.innerText = secondsLeft;
+        ending.classList.remove("hide");
+    }
 }
 
+// add an eventlistener onto submit button. 
+// then create a highscores page.
+
+// add the score and initial into a list on the highscores page.
+// save the score and initials into local storage.
 
 
 
-function secondquestion() {
-    newquestion.innerHTML = question2.q2;
-    firstbtn.innerText = question2.answer1;
-    secondbtn.innerText = question2.answer2;
-    thirdbtn.innerText = question2.answer3;
-    fourthbtn.innerText = question2.answer4;
-}
-
-
-
-// Question objects
-var question1 = {
-    q1: "Which element is a self-closing tag?",
-    answer1: "<p>",
-    answer2: "<div>",
-    answer3: "<img>",
-    answer4: "<h1>",
-}
-
-var question2 = {
-    q2: "As a best practice, where should you link your JavaScript into your HTML?",
-    answer1: "At the top of the 'Head' section",
-    answer2: "At the bottom of the 'Body' section",
-    answer3: "Within a <div> at the top of the 'Body' section",
-    answer4: "At the end of the 'Head' section",
-}
-
-
-
-// var question3 = {
-//     answer1:
-//     answer2:
-//     answer3:
-//     answer4:
-// }
-
-// var question4 = {
-//     answer1:
-//     answer2:
-//     answer3:
-//     answer4:
-// }
