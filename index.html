@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
     <!-- Linking Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <!-- Linking in personal CSS stylesheet -->
     <link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
     <header class="headerclass">
         <div class="container">
@@ -22,10 +25,12 @@
     <main class="content-section">
         <div class="container maincontainer card-body">
             <div id="begin-text">
-                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your scoretime by 10 seconds! When you are ready, click the start button and begin.</p>
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect
+                    answers will penalize your scoretime by 10 seconds! When you are ready, click the start button and
+                    begin.</p>
                 <button type="button" id="startbutton" class="btn btn-success">
-                Start
-                </button> 
+                    Start
+                </button>
             </div>
         </div>
 
@@ -33,20 +38,29 @@
         <div class="container hide" id="question-container">
             <div id="questions">
             </div>
-            <div id = "btnAnswers">
+            <div id="btnAnswers">
+            </div>
+            <div id="answerMessage">
             </div>
         </div>
 
         <!-- Ending message when user has answered all questions -->
         <div id="endingMessage" class="container hide">
             <h2>Well Done!</h2>
-            <h4>Your final score is: <span id=finalScore></span></h4>
-            <form>
+            <h4>Your final score is: <span id=finalScore></span></h4><br>
+                <div id="leaderboardDiv" class="hide">
+                    <h5 id="leaderboardHeading">Leaderboard:</h5>
+                    <p id="leaderboard"></p>
+                    <button id="playAgainBtn" class="btn btn-primary">Play Again</button>
+                    <button id="clearBtn" class="btn btn-primary">Clear Leaderboard</button>
+
+                </div>
+            <form id="submitScoreForm">
                 <label for="Initials-input">Initials:</label>
                 <input type="text" id="initials-input"><button id="submit-score" class="btn btn-primary">Submit</button>
             </form>
         </div>
-         
+
         <aside class="hide" id="countdown-timer">
             <p>Seconds Left: <span id="timer">120</span></p>
         </aside>
@@ -57,11 +71,12 @@
     <!-- Add progress bar -->
     <footer id="footerid">
         <div class="container footertext">
-          <p>This code quiz was made by Kieran Lynch</p>
+            <p>This code quiz was made by Kieran Lynch</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
 
 </body>
+
 </html>

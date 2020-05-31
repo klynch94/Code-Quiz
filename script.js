@@ -9,6 +9,9 @@ var timerInterval;
 var ending = document.getElementById("endingMessage");
 var finalScore = document.getElementById("finalScore");
 var secondsLeft = 120;
+var initialsInput = document.getElementById("initials-input").value;
+var leaderboardDiv = document.getElementById("leaderboardDiv");
+var leaderboard = document.getElementById("leaderboard")
 
 
 // Question objects
@@ -30,20 +33,28 @@ var questionArray = [
         qanswer: "At the bottom of the 'Body' section"
     },
     {
-        q: "What is your favorite website?",
-        answer1: "Google",
-        answer2: "yahoo",
-        answer3: "msn.com",
-        answer4: "facebook",
-        qanswer: "Google"
+        q: "What is a reputable wesbite for coding questions?",
+        answer1: "W3Schools.com",
+        answer2: "Google.com",
+        answer3: "CodeGalaxy.com",
+        answer4: "Facebook.com",
+        qanswer: "W3Schools.com"
     },
     {
-        q: "Question 4?",
-        answer1: "1",
-        answer2: "2",
-        answer3: "3",
-        answer4: "4",
-        qanswer: "1"
+        q: "To target a class in CSS, what character needs to be used before the class name?",
+        answer1: "*",
+        answer2: "$",
+        answer3: ".",
+        answer4: "#",
+        qanswer: "."
+    },
+    {
+        q: "A great way to avoid <div> soup is to:",
+        answer1: "Create classes for each div",
+        answer2: "Create IDs for each div",
+        answer3: "Utilize semantic HTML",
+        answer4: "There is no way to avoid <div> soup",
+        qanswer: "Utilize semantic HTML"
     }
 ];
 
@@ -80,6 +91,7 @@ function displayQuestion() {
     if (i < questionArray.length) {
         document.getElementById("questions").textContent = "";
         document.getElementById("btnAnswers").textContent = "";
+        document.getElementById("answerMessage").textContent = "";
 
         var questionP = document.createElement("p")
         questionP.innerText = questionArray[i].q;
@@ -106,10 +118,23 @@ function displayQuestion() {
         document.getElementById("btnAnswers").appendChild(answer4Btn)
 
         // Taken from https://flaviocopes.com/add-click-event-to-dom-list/
-        const buttons = document.querySelectorAll(".answer-btns")
+        var buttons = document.querySelectorAll(".answer-btns")
         for (const button of buttons) {
             button.addEventListener('click', function (event) {
-                i++
+                // if(event.target === questionArray[i].qanswer) {
+                    i++
+                    var correctMessage = document.createElement("img");
+                    correctMessage.src = "assets/correct-image.png";
+                    document.getElementById("answerMessage").appendChild(correctMessage);
+                // }
+                // else {
+                //     console.log(questionArray[i].qanswer);
+                //     console.log(event.value);
+                //     var incorrectMessage = document.createElement("img");
+                //     incorrectMessage.src = "assets/incorrect-image.png";
+                //     document.getElementById("answerMessage").appendChild(incorrectMessage);
+                //     secondsLeft +=10;
+                // }
             })
         }
     }
@@ -117,12 +142,42 @@ function displayQuestion() {
         clearInterval(timerInterval);
         questiondiv.classList.add("hide");
         timerdiv.classList.add("hide");
-        console.log(timerInterval);
         // grab timerinterval and set that as the score
         finalScore.innerText = secondsLeft;
         ending.classList.remove("hide");
+
+        // adding event listener to submit high scores...
+        var submitScore = document.getElementById("submit-score");
+        submitScore.addEventListener('click', function () {
+            event.preventDefault();
+            var subimtScoreForm = document.getElementById("submitScoreForm")
+            subimtScoreForm.classList.add("hide");
+            leaderboardDiv.classList.remove("hide");
+            console.log(initialsInput);
+            leaderboard.innerText = initialsInput + " " + secondsLeft;
+        })
     }
 }
+
+// trying to reset the game....
+var playAgainBtn = document.getElementById("playAgainBtn");
+var clearBtn = document.getElementById("clearBtn");
+
+// function reset () {
+//     var secondsLeft = 120;
+//     var i=0;
+//     var timerInterval;
+// }
+
+// playAgainBtn.addEventListener('click', function() {
+//     reset();
+//     startGame();
+// })
+
+clearBtn.addEventListener('click', function() {
+    leaderboard.innerText = "";
+    // how do i remove it from local storage?
+})
 
 // add an eventlistener onto submit button. 
 // then create a highscores page.
