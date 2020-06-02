@@ -15,11 +15,12 @@
     margin-bottom: 0px;
 }
 
-#question-container {
+img {
+    width: 300px;
     text-align: center;
 }
 
-#endingMessage {
+#question-container, #endingMessage, #leaderboardHead, #finalBtns {
     text-align: center;
 }
 
@@ -36,9 +37,17 @@
     margin-left: 5px;
 }
 
-.finalTxt {
-    text-align: center;
-}
+li {
+    height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ff9900ec;
+    color: white;
+    font-size: 1.5em;
+    line-height: 1.5;
+    list-style-type: none;
+  }
 
 .hide {
     display: none;

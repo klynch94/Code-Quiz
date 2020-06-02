@@ -16,11 +16,11 @@ var finalBtns = document.getElementById("finalBtns");
 var questionArray = [
     {
         q: "Which element is a self-closing tag?",
-        answer1: "<p>",
-        answer2: "<div>",
-        answer3: "<img>",
-        answer4: "<h1>",
-        qanswer: "<img>"
+        answer1: "p",
+        answer2: "div",
+        answer3: "img",
+        answer4: "h1",
+        qanswer: "img"
     },
     {
         q: "As a best practice, where should you link your JavaScript into your HTML?",
@@ -61,7 +61,6 @@ startbtn.addEventListener('click', startGame);
 
 // Starting the game function. Starts the timer and hides instructions when start is clicked
 function startGame() {
-    console.log("started");
     instructions.classList.add("hide");
     // ending.classList.add("hide");
     timerdiv.classList.remove("hide");
@@ -117,23 +116,22 @@ function displayQuestion() {
         document.getElementById("btnAnswers").appendChild(answer4Btn)
 
         // Taken from https://flaviocopes.com/add-click-event-to-dom-list/
+        // when one of the answer buttons is clicked, check to see if it is the correct answer
         var buttons = document.querySelectorAll(".answer-btns")
         for (const button of buttons) {
             button.addEventListener('click', function (event) {
-                // if(button.value === questionArray[i].qanswer) {
+                if(button.innerHTML === questionArray[i].qanswer) {
                     i++
                     var correctMessage = document.createElement("img");
                     correctMessage.src = "assets/correct-image.png";
                     document.getElementById("answerMessage").appendChild(correctMessage);
-                // }
-                // else {
-                //     console.log(questionArray[i].qanswer);
-                //     console.log(event.value);
-                //     var incorrectMessage = document.createElement("img");
-                //     incorrectMessage.src = "assets/incorrect-image.png";
-                //     document.getElementById("answerMessage").appendChild(incorrectMessage);
-                //     secondsLeft +=10;
-                // }
+                }
+                else {
+                    var incorrectMessage = document.createElement("img");
+                    incorrectMessage.src = "assets/incorrect-image.png";
+                    document.getElementById("answerMessage").appendChild(incorrectMessage);
+                    secondsLeft -=10;
+                }
             })
         }
     }
@@ -160,7 +158,7 @@ function displayQuestion() {
         var formButton = document.createElement("button");
         formButton.setAttribute("class", "btn btn-primary submitBtn");
         formButton.setAttribute("id", "submit-score");
-        formButton.setAttribute("type", "button");
+        formButton.setAttribute("type", "submit");
         formLabel.innerText = "Initials: ";
         formButton.innerText = "Submit";
         leaderboardForm.appendChild(formLabel);
@@ -183,9 +181,19 @@ function displayQuestion() {
             leaderboardTitle.innerText = "Leaderboard:";
             leaderboardForm.appendChild(leaderboardTitle);
 
-            // pushing score into the leaderboard
-            highscoresArr.push(formInput.value + " " + secondsLeft);
-            ending.innerText = highscoresArr;
+            // pushing score into the leaderboard. if initials input is empty, do not push it to the leaderboard
+            if (formInput.value !== "") {
+                highscoresArr.push(formInput.value + " " + " - " + secondsLeft);
+            }
+            
+            for (var i=0; i<highscoresArr.length; i++) {
+                var li = document.createElement('li');
+                li.innerText = highscoresArr[i];
+                ending.appendChild(li);
+            }
+
+
+            // ending.innerText = highscoresArr;
 
             // creating play again button
             var playAgainBtn = document.createElement("button");
@@ -201,6 +209,7 @@ function displayQuestion() {
             clearScores.innerText = "Clear Scores";
             finalBtns.appendChild(clearScores);
 
+            // adding event listener to play again button
             var playAgain = document.getElementById("restart");
             playAgain.addEventListener("click", function() {
                 leaderboardForm.textContent = "";
@@ -210,6 +219,7 @@ function displayQuestion() {
                 startGame();
             })
 
+            // adding event listener to clear the leaderboard
             var clearHighScores = document.getElementById("clearHighScores");
             clearHighScores.addEventListener("click", function() {
                 highscoresArr.length = 0;
@@ -222,14 +232,6 @@ function displayQuestion() {
     }
 }
 
-      
-
-
-
-
-// // trying to reset the game....
-// var playAgainBtn = document.getElementById("playAgainBtn");
-// var clearBtn = document.getElementById("clearBtn");
 
 function reset () {
     secondsLeft = 120;
@@ -237,18 +239,8 @@ function reset () {
     timerInterval;
 }
 
-// playAgainBtn.addEventListener('click', function() {
-//     reset();
-//     startGame();
-// })
 
-// clearBtn.addEventListener('click', function() {
-//     leaderboard.innerText = "";
-//     // how do i remove it from local storage?
-// })
 
-// add an eventlistener onto submit button. 
-// then create a highscores page.
 
 // add the score and initial into a list on the highscores page.
 // save the score and initials into local storage.
