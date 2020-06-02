@@ -7,9 +7,8 @@ var questiondiv = document.getElementById("question-container");
 var i = 0;
 var timerInterval;
 var ending = document.getElementById("endingMessage");
-var finalScore = document.getElementById("finalScore");
 var secondsLeft = 120;
-var highscoresArr = [];
+var highscoresArr = JSON.parse(localStorage.getItem("scores")) || [];
 var finalBtns = document.getElementById("finalBtns");
 
 // Question objects
@@ -120,7 +119,7 @@ function displayQuestion() {
         var buttons = document.querySelectorAll(".answer-btns")
         for (const button of buttons) {
             button.addEventListener('click', function (event) {
-                if(button.innerHTML === questionArray[i].qanswer) {
+                if (button.innerHTML === questionArray[i].qanswer) {
                     i++
                     var correctMessage = document.createElement("img");
                     correctMessage.src = "assets/correct-image.png";
@@ -130,7 +129,7 @@ function displayQuestion() {
                     var incorrectMessage = document.createElement("img");
                     incorrectMessage.src = "assets/incorrect-image.png";
                     document.getElementById("answerMessage").appendChild(incorrectMessage);
-                    secondsLeft -=10;
+                    secondsLeft -= 10;
                 }
             })
         }
@@ -140,9 +139,7 @@ function displayQuestion() {
         questiondiv.classList.add("hide");
         timerdiv.classList.add("hide");
         // grab timerinterval and set that as the score
-        // finalScore.innerText = secondsLeft;
 
-        // ending.textContent = "";
         var congrats = document.createElement("H2");
         congrats.innerText = "Well Done!";
         document.getElementById("endingMessage").appendChild(congrats);
@@ -171,7 +168,7 @@ function displayQuestion() {
 
         // adding event listener to submit high scores...
         var submitScore = document.getElementById("submit-score");
-        submitScore.addEventListener('click', function(event) {
+        submitScore.addEventListener('click', function (event) {
             event.preventDefault();
             endingMessage.innerText = "";
 
@@ -184,16 +181,15 @@ function displayQuestion() {
             // pushing score into the leaderboard. if initials input is empty, do not push it to the leaderboard
             if (formInput.value !== "") {
                 highscoresArr.push(formInput.value + " " + " - " + secondsLeft);
+                localStorage.setItem("scores", JSON.stringify(highscoresArr));
             }
-            
-            for (var i=0; i<highscoresArr.length; i++) {
+
+            for (var i = 0; i < highscoresArr.length; i++) {
                 var li = document.createElement('li');
                 li.innerText = highscoresArr[i];
                 ending.appendChild(li);
             }
 
-
-            // ending.innerText = highscoresArr;
 
             // creating play again button
             var playAgainBtn = document.createElement("button");
@@ -211,7 +207,7 @@ function displayQuestion() {
 
             // adding event listener to play again button
             var playAgain = document.getElementById("restart");
-            playAgain.addEventListener("click", function() {
+            playAgain.addEventListener("click", function () {
                 leaderboardForm.textContent = "";
                 finalBtns.textContent = "";
                 ending.textContent = "";
@@ -221,7 +217,7 @@ function displayQuestion() {
 
             // adding event listener to clear the leaderboard
             var clearHighScores = document.getElementById("clearHighScores");
-            clearHighScores.addEventListener("click", function() {
+            clearHighScores.addEventListener("click", function () {
                 highscoresArr.length = 0;
                 ending.textContent = "";
                 console.log(highscoresArr);
@@ -233,17 +229,12 @@ function displayQuestion() {
 }
 
 
-function reset () {
+function reset() {
     secondsLeft = 120;
-    i=0;
+    i = 0;
     timerInterval;
 }
 
-
-
-
-// add the score and initial into a list on the highscores page.
-// save the score and initials into local storage.
 
 
 
