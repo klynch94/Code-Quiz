@@ -45,22 +45,9 @@
         </div>
 
         <!-- Ending message when user has answered all questions -->
-        <div id="endingMessage" class="container hide">
-            <h2>Well Done!</h2>
-            <h4>Your final score is: <span id=finalScore></span></h4><br>
-                <div id="leaderboardDiv" class="hide">
-                    <h5 id="leaderboardHeading">Leaderboard:</h5>
-                    <p id="leaderboard"></p>
-                    <button id="playAgainBtn" class="btn btn-primary">Play Again</button>
-                    <button id="clearBtn" class="btn btn-primary">Clear Leaderboard</button>
-
-                </div>
-            <form id="submitScoreForm">
-                <label for="Initials-input">Initials:</label>
-                <input type="text" id="initials-input"><button id="submit-score" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-
+        <div id="leaderboardHead" class="finalTxt"></div>
+        <div id="endingMessage" class="container"></div>
+        <div id="finalBtns" class="finalTxt"></div>
         <aside class="hide" id="countdown-timer">
             <p>Seconds Left: <span id="timer">120</span></p>
         </aside>

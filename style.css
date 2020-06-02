@@ -28,8 +28,16 @@
     text-align: center;
 }
 
+.submitBtn {
+    margin: 5px;
+}
+
 #submit-score {
     margin-left: 5px;
+}
+
+.finalTxt {
+    text-align: center;
 }
 
 .hide {

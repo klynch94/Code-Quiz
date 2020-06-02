@@ -9,10 +9,8 @@ var timerInterval;
 var ending = document.getElementById("endingMessage");
 var finalScore = document.getElementById("finalScore");
 var secondsLeft = 120;
-var initialsInput = document.getElementById("initials-input").value;
-var leaderboardDiv = document.getElementById("leaderboardDiv");
-var leaderboard = document.getElementById("leaderboard")
-
+var highscoresArr = [];
+var finalBtns = document.getElementById("finalBtns");
 
 // Question objects
 var questionArray = [
@@ -65,6 +63,7 @@ startbtn.addEventListener('click', startGame);
 function startGame() {
     console.log("started");
     instructions.classList.add("hide");
+    // ending.classList.add("hide");
     timerdiv.classList.remove("hide");
     scoreTimer();
     // show first question
@@ -121,7 +120,7 @@ function displayQuestion() {
         var buttons = document.querySelectorAll(".answer-btns")
         for (const button of buttons) {
             button.addEventListener('click', function (event) {
-                // if(event.target === questionArray[i].qanswer) {
+                // if(button.value === questionArray[i].qanswer) {
                     i++
                     var correctMessage = document.createElement("img");
                     correctMessage.src = "assets/correct-image.png";
@@ -143,41 +142,110 @@ function displayQuestion() {
         questiondiv.classList.add("hide");
         timerdiv.classList.add("hide");
         // grab timerinterval and set that as the score
-        finalScore.innerText = secondsLeft;
-        ending.classList.remove("hide");
+        // finalScore.innerText = secondsLeft;
+
+        // ending.textContent = "";
+        var congrats = document.createElement("H2");
+        congrats.innerText = "Well Done!";
+        document.getElementById("endingMessage").appendChild(congrats);
+
+        var final = document.createElement("H4");
+        final.innerText = "Your final score is: " + secondsLeft;
+        document.getElementById("endingMessage").appendChild(final);
+
+        var leaderboardForm = document.createElement("form");
+        leaderboardForm.setAttribute("id", "submitScoreForm");
+        var formLabel = document.createElement("label");
+        var formInput = document.createElement("input");
+        var formButton = document.createElement("button");
+        formButton.setAttribute("class", "btn btn-primary submitBtn");
+        formButton.setAttribute("id", "submit-score");
+        formButton.setAttribute("type", "button");
+        formLabel.innerText = "Initials: ";
+        formButton.innerText = "Submit";
+        leaderboardForm.appendChild(formLabel);
+        leaderboardForm.appendChild(formInput);
+        leaderboardForm.appendChild(formButton);
+        ending.appendChild(leaderboardForm);
+
+
+
 
         // adding event listener to submit high scores...
         var submitScore = document.getElementById("submit-score");
-        submitScore.addEventListener('click', function () {
+        submitScore.addEventListener('click', function(event) {
             event.preventDefault();
-            var subimtScoreForm = document.getElementById("submitScoreForm")
-            subimtScoreForm.classList.add("hide");
-            leaderboardDiv.classList.remove("hide");
-            console.log(initialsInput);
-            leaderboard.innerText = initialsInput + " " + secondsLeft;
+            endingMessage.innerText = "";
+
+            // adding leaderboard title and inserting into DOM
+            var leaderboardForm = document.getElementById("leaderboardHead");
+            var leaderboardTitle = document.createElement("h4");
+            leaderboardTitle.innerText = "Leaderboard:";
+            leaderboardForm.appendChild(leaderboardTitle);
+
+            // pushing score into the leaderboard
+            highscoresArr.push(formInput.value + " " + secondsLeft);
+            ending.innerText = highscoresArr;
+
+            // creating play again button
+            var playAgainBtn = document.createElement("button");
+            playAgainBtn.setAttribute("class", "submitBtn btn btn-primary submitBtn");
+            playAgainBtn.setAttribute("id", "restart");
+            playAgainBtn.innerText = "Play Again";
+            finalBtns.appendChild(playAgainBtn);
+
+            // creating clear scores button
+            var clearScores = document.createElement("button");
+            clearScores.setAttribute("class", "submitBtn btn btn-primary submitBtn");
+            clearScores.setAttribute("id", "clearHighScores");
+            clearScores.innerText = "Clear Scores";
+            finalBtns.appendChild(clearScores);
+
+            var playAgain = document.getElementById("restart");
+            playAgain.addEventListener("click", function() {
+                leaderboardForm.textContent = "";
+                finalBtns.textContent = "";
+                ending.textContent = "";
+                reset();
+                startGame();
+            })
+
+            var clearHighScores = document.getElementById("clearHighScores");
+            clearHighScores.addEventListener("click", function() {
+                highscoresArr.length = 0;
+                ending.textContent = "";
+                console.log(highscoresArr);
+            })
+
         })
+
     }
 }
 
-// trying to reset the game....
-var playAgainBtn = document.getElementById("playAgainBtn");
-var clearBtn = document.getElementById("clearBtn");
+      
 
-// function reset () {
-//     var secondsLeft = 120;
-//     var i=0;
-//     var timerInterval;
-// }
+
+
+
+// // trying to reset the game....
+// var playAgainBtn = document.getElementById("playAgainBtn");
+// var clearBtn = document.getElementById("clearBtn");
+
+function reset () {
+    secondsLeft = 120;
+    i=0;
+    timerInterval;
+}
 
 // playAgainBtn.addEventListener('click', function() {
 //     reset();
 //     startGame();
 // })
 
-clearBtn.addEventListener('click', function() {
-    leaderboard.innerText = "";
-    // how do i remove it from local storage?
-})
+// clearBtn.addEventListener('click', function() {
+//     leaderboard.innerText = "";
+//     // how do i remove it from local storage?
+// })
 
 // add an eventlistener onto submit button. 
 // then create a highscores page.
