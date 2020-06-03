@@ -7,22 +7,19 @@ var questiondiv = document.getElementById("question-container");
 var i = 0;
 var timerInterval;
 var ending = document.getElementById("endingMessage");
-var finalScore = document.getElementById("finalScore");
 var secondsLeft = 120;
-var initialsInput = document.getElementById("initials-input").value;
-var leaderboardDiv = document.getElementById("leaderboardDiv");
-var leaderboard = document.getElementById("leaderboard")
-
+var highscoresArr = JSON.parse(localStorage.getItem("scores")) || [];
+var finalBtns = document.getElementById("finalBtns");
 
 // Question objects
 var questionArray = [
     {
         q: "Which element is a self-closing tag?",
-        answer1: "<p>",
-        answer2: "<div>",
-        answer3: "<img>",
-        answer4: "<h1>",
-        qanswer: "<img>"
+        answer1: "p",
+        answer2: "div",
+        answer3: "img",
+        answer4: "h1",
+        qanswer: "img"
     },
     {
         q: "As a best practice, where should you link your JavaScript into your HTML?",
@@ -63,8 +60,8 @@ startbtn.addEventListener('click', startGame);
 
 // Starting the game function. Starts the timer and hides instructions when start is clicked
 function startGame() {
-    console.log("started");
     instructions.classList.add("hide");
+    // ending.classList.add("hide");
     timerdiv.classList.remove("hide");
     scoreTimer();
     // show first question
@@ -118,23 +115,22 @@ function displayQuestion() {
         document.getElementById("btnAnswers").appendChild(answer4Btn)
 
         // Taken from https://flaviocopes.com/add-click-event-to-dom-list/
+        // when one of the answer buttons is clicked, check to see if it is the correct answer
         var buttons = document.querySelectorAll(".answer-btns")
         for (const button of buttons) {
             button.addEventListener('click', function (event) {
-                // if(event.target === questionArray[i].qanswer) {
+                if (button.innerHTML === questionArray[i].qanswer) {
                     i++
                     var correctMessage = document.createElement("img");
                     correctMessage.src = "assets/correct-image.png";
                     document.getElementById("answerMessage").appendChild(correctMessage);
-                // }
-                // else {
-                //     console.log(questionArray[i].qanswer);
-                //     console.log(event.value);
-                //     var incorrectMessage = document.createElement("img");
-                //     incorrectMessage.src = "assets/incorrect-image.png";
-                //     document.getElementById("answerMessage").appendChild(incorrectMessage);
-                //     secondsLeft +=10;
-                // }
+                }
+                else {
+                    var incorrectMessage = document.createElement("img");
+                    incorrectMessage.src = "assets/incorrect-image.png";
+                    document.getElementById("answerMessage").appendChild(incorrectMessage);
+                    secondsLeft -= 10;
+                }
             })
         }
     }
@@ -143,47 +139,100 @@ function displayQuestion() {
         questiondiv.classList.add("hide");
         timerdiv.classList.add("hide");
         // grab timerinterval and set that as the score
-        finalScore.innerText = secondsLeft;
-        ending.classList.remove("hide");
+
+        var congrats = document.createElement("H2");
+        congrats.innerText = "Well Done!";
+        document.getElementById("endingMessage").appendChild(congrats);
+
+        var final = document.createElement("H4");
+        final.innerText = "Your final score is: " + secondsLeft;
+        document.getElementById("endingMessage").appendChild(final);
+
+        var leaderboardForm = document.createElement("form");
+        leaderboardForm.setAttribute("id", "submitScoreForm");
+        var formLabel = document.createElement("label");
+        var formInput = document.createElement("input");
+        var formButton = document.createElement("button");
+        formButton.setAttribute("class", "btn btn-primary submitBtn");
+        formButton.setAttribute("id", "submit-score");
+        formButton.setAttribute("type", "submit");
+        formLabel.innerText = "Initials: ";
+        formButton.innerText = "Submit";
+        leaderboardForm.appendChild(formLabel);
+        leaderboardForm.appendChild(formInput);
+        leaderboardForm.appendChild(formButton);
+        ending.appendChild(leaderboardForm);
+
+
+
 
         // adding event listener to submit high scores...
         var submitScore = document.getElementById("submit-score");
-        submitScore.addEventListener('click', function () {
+        submitScore.addEventListener('click', function (event) {
             event.preventDefault();
-            var subimtScoreForm = document.getElementById("submitScoreForm")
-            subimtScoreForm.classList.add("hide");
-            leaderboardDiv.classList.remove("hide");
-            console.log(initialsInput);
-            leaderboard.innerText = initialsInput + " " + secondsLeft;
+            endingMessage.innerText = "";
+
+            // adding leaderboard title and inserting into DOM
+            var leaderboardForm = document.getElementById("leaderboardHead");
+            var leaderboardTitle = document.createElement("h4");
+            leaderboardTitle.innerText = "Leaderboard:";
+            leaderboardForm.appendChild(leaderboardTitle);
+
+            // pushing score into the leaderboard. if initials input is empty, do not push it to the leaderboard
+            if (formInput.value !== "") {
+                highscoresArr.push(formInput.value + " " + " - " + secondsLeft);
+                localStorage.setItem("scores", JSON.stringify(highscoresArr));
+            }
+
+            for (var i = 0; i < highscoresArr.length; i++) {
+                var li = document.createElement('li');
+                li.innerText = highscoresArr[i];
+                ending.appendChild(li);
+            }
+
+
+            // creating play again button
+            var playAgainBtn = document.createElement("button");
+            playAgainBtn.setAttribute("class", "submitBtn btn btn-primary submitBtn");
+            playAgainBtn.setAttribute("id", "restart");
+            playAgainBtn.innerText = "Play Again";
+            finalBtns.appendChild(playAgainBtn);
+
+            // creating clear scores button
+            var clearScores = document.createElement("button");
+            clearScores.setAttribute("class", "submitBtn btn btn-primary submitBtn");
+            clearScores.setAttribute("id", "clearHighScores");
+            clearScores.innerText = "Clear Scores";
+            finalBtns.appendChild(clearScores);
+
+            // adding event listener to play again button
+            var playAgain = document.getElementById("restart");
+            playAgain.addEventListener("click", function () {
+                leaderboardForm.textContent = "";
+                finalBtns.textContent = "";
+                ending.textContent = "";
+                reset();
+                startGame();
+            })
+
+            // adding event listener to clear the leaderboard
+            var clearHighScores = document.getElementById("clearHighScores");
+            clearHighScores.addEventListener("click", function () {
+                highscoresArr.length = 0;
+                ending.textContent = "";
+                console.log(highscoresArr);
+            })
+
         })
+
     }
 }
 
-// trying to reset the game....
-var playAgainBtn = document.getElementById("playAgainBtn");
-var clearBtn = document.getElementById("clearBtn");
 
-// function reset () {
-//     var secondsLeft = 120;
-//     var i=0;
-//     var timerInterval;
-// }
-
-// playAgainBtn.addEventListener('click', function() {
-//     reset();
-//     startGame();
-// })
-
-clearBtn.addEventListener('click', function() {
-    leaderboard.innerText = "";
-    // how do i remove it from local storage?
-})
-
-// add an eventlistener onto submit button. 
-// then create a highscores page.
-
-// add the score and initial into a list on the highscores page.
-// save the score and initials into local storage.
-
+function reset() {
+    secondsLeft = 120;
+    i = 0;
+    timerInterval;
+}
 
 
