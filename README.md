@@ -35,3 +35,6 @@ At the end of the quiz, users can submit their score:
 I also created a dynamically updated leaderboard that is stored in Local Storage. Users can clear the leaderboard or play again for a better score: 
 
 <img src="assets/Leaderboard.screenshot.png">
+
+
+Here is a link to the deployed application: https://klynch94.github.io/Code-Quiz/
